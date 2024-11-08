@@ -8,7 +8,6 @@ export default function Home() {
 
   const addModule = () => {
     console.log(`Adding module: ${moduleName}`);
-    // You might need to lift state up or implement state management here
     setModuleName("");
   };
 
