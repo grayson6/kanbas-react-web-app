@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentUser } from './reducer';
+import * as client from './client';
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
@@ -17,14 +18,24 @@ export default function Profile() {
     }
   };
 
-  const signout = () => {
+  const updateProfile = async () => {
+    try {
+      const updatedUser = await client.updateUser(profile);
+      dispatch(setCurrentUser(updatedUser));
+      alert('Profile updated successfully');
+    } catch (err) {
+      alert('Error updating profile');
+    }
+  };
+
+  const signout = async () => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     navigate('/Kanbas/Account/Signin');
   };
 
   useEffect(() => {
     fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -82,6 +93,12 @@ export default function Profile() {
             <option value="FACULTY">Faculty</option>
             <option value="STUDENT">Student</option>
           </select>
+          <button
+            onClick={updateProfile}
+            className="btn btn-primary w-100 mb-2"
+          >
+            Update
+          </button>
           <button
             onClick={signout}
             className="btn btn-danger w-100 mb-2"

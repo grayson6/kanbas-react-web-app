@@ -52,6 +52,8 @@ export default function Courses({ courses }: { courses: Course[] }) {
     </div>
   );
 }
+
+
 // absolute newest 11/8
 
 // import Modules from "./Modules";
